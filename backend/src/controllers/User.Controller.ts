@@ -3,7 +3,8 @@ import {
   deleteImageFromCloudinary,
   uploadToCloudinary,
 } from "../lib/cloudinary";
-import User from "../models/user.model";
+import { IUser, User } from "../models/user.model";
+import { Types } from "mongoose";
 
 const updateUser = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -11,12 +12,12 @@ const updateUser = async (req: Request, res: Response): Promise<void> => {
       res.status(400).json({ message: "Profile picture is required" });
       return;
     }
-    const user = req.user;
+    const user: IUser | undefined = req.user;
     if (!user) {
       res.status(401).json({ message: "Unauthorized" });
       return;
     }
-    const userId = user.id;
+    const userId: Types.ObjectId = user._id;
     if (!userId) {
       res.status(401).json({ message: "Unauthorized" });
       return;

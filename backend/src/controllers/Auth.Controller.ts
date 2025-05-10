@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import User from "../models/user.model";
 import bcrypt from "bcryptjs";
 import { generateJWT } from "../lib/utils";
+import { User } from "../models/user.model";
 
 const hashPassword = async (password: string): Promise<string> => {
   const SALT_ROUNDS = 10;
@@ -49,6 +49,8 @@ const signup = async (req: Request, res: Response) => {
       console.error("Error saving user to the database:", error);
       return res.status(500).json({ message: "Failed to create user" });
     }
+
+    newUser._id
 
     // Generate JWT and set cookie
     generateJWT({ userId: newUser._id.toString(), res });

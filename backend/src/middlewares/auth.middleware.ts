@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import { NextFunction, Request, Response } from "express";
-import User from "../models/user.model";
+import { User } from "../models/user.model";
 
 const protectRouteMiddleware = async (
   req: Request,
@@ -36,14 +36,8 @@ const protectRouteMiddleware = async (
       return;
     }
 
-    req.user = {
-      id: user._id.toString(),
-      fullName: user.fullName,
-      email: user.email,
-      profilePic: user.profilePic,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
-    };
+    req.user = user;
+
     next();
   } catch (error) {
     console.error("Error in protected route middleware:", error);

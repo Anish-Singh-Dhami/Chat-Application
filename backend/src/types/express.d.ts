@@ -1,14 +1,9 @@
-interface IUser {
-  id: string;
-  fullName: string;
-  email: string;
-  profilePic: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { IUser } from "../models/user.model";
 
-namespace Express {
-  interface Request {
-    user?: IUser;
+declare global {
+  namespace Express {
+    interface Request {
+      user?: IUser;
+    }
   }
 }
