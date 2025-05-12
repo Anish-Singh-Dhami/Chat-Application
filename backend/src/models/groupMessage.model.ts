@@ -21,12 +21,10 @@ const GroupMessageSchema = new Schema<IGroupMessage>(
     },
     content: {
       type: String,
-      optional: true,
     },
     file_id: {
       type: Schema.Types.ObjectId,
       ref: "File",
-      optional: true,
     },
   },
   { timestamps: true }

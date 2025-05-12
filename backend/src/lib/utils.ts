@@ -36,4 +36,12 @@ const generateJWT = ({ userId, res }: GenerateJWTParams): void => {
     throw new Error("Failed to generate JWT.");
   }
 };
-export { generateToken, setTokenCookie, generateJWT };
+
+const getSortedUserIds = (
+  user1_id: string,
+  user2_id: string
+): [string, string] => {
+  return user1_id < user2_id ? [user1_id, user2_id] : [user2_id, user1_id];
+};
+
+export { generateToken, setTokenCookie, generateJWT, getSortedUserIds };

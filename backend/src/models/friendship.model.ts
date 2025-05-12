@@ -12,6 +12,8 @@ interface IFriendship {
   user2_id: Types.ObjectId; // Larger User ID
   action_by: Types.ObjectId; // Last user who updated the status
   status: FriendshipStatus;
+  lastMessageId: Types.ObjectId; // Id of the last message sent in the friendship
+  lastMessageAt: Date; // Last message sent in the friendship
 }
 
 const FriendshipSchema = new Schema<IFriendship>(
@@ -35,12 +37,22 @@ const FriendshipSchema = new Schema<IFriendship>(
       type: String,
       enum: Object.values(FriendshipStatus),
       default: FriendshipStatus.PENDING,
+      required: true,
+    },
+    lastMessageId: {
+      type: Schema.Types.ObjectId,
+      ref: "DirectMessage",
+    },
+    lastMessageAt: {
+      type: Date,
+      default: Date.now,
+      required: true,
     },
   },
   { timestamps: true }
 );
 
-FriendshipSchema.index({ requester: 1, recipient: 1 }, { unique: true });
+FriendshipSchema.index({ user1_id: 1, user2_id: 1 }, { unique: true });
 
 const Friendship = model<IFriendship>("Friendship", FriendshipSchema);
 

@@ -1,10 +1,18 @@
 import { model, Schema, Types } from "mongoose";
 
+enum MessageStatus {
+  READ = "Read",
+  UNREAD = "Unread",
+}
+
 interface IDirectMessage {
+  _id: Types.ObjectId;
   sender_id: Types.ObjectId;
   receiver_id: Types.ObjectId;
   content?: string;
   file_id?: Types.ObjectId;
+  status: MessageStatus;
+  createdAt?: Date;
 }
 
 const DirectMessageSchema = new Schema<IDirectMessage>(
@@ -21,12 +29,20 @@ const DirectMessageSchema = new Schema<IDirectMessage>(
     },
     content: {
       type: String,
-      optional: true,
     },
     file_id: {
       type: Schema.Types.ObjectId,
       ref: "File",
-      optional: true,
+    },
+    status: {
+      type: String,
+      enum: Object.values(MessageStatus),
+      default: MessageStatus.UNREAD,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      required: true,
     },
   },
   { timestamps: true }
@@ -37,4 +53,4 @@ const DirectMessage = model<IDirectMessage>(
   DirectMessageSchema
 );
 
-export { DirectMessage, IDirectMessage };
+export { MessageStatus, DirectMessage, IDirectMessage };

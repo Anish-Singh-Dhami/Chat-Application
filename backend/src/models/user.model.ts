@@ -18,7 +18,6 @@ interface IUser {
 
 const UserSchema = new Schema<IUser>(
   {
-
     fullName: {
       type: String,
       required: true,
@@ -49,6 +48,13 @@ const UserSchema = new Schema<IUser>(
   },
   { timestamps: true }
 );
+
+UserSchema.set("toJSON", {
+  transform: (doc, res) => {
+    delete res.password; // Remove password from the response.
+    return res;
+  },
+});
 
 const User = model<IUser>("User", UserSchema);
 
